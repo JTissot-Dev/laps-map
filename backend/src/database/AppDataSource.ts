@@ -10,6 +10,7 @@ const AppDataSource: DataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  logging: true,
   synchronize: false,
   entities: [
     Lap
