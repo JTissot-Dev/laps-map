@@ -1,8 +1,8 @@
 type Canvas = {
-  minLat: string,
-  maxLat: string,
-  minLon: string,
-  maxLon: string
+  northWest: string,
+  northEst: string,
+  southEst: string,
+  southWest: string
 };
 
 export default Canvas;

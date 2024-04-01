@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   Column } from 'typeorm';
-import Canvas from '../types/Canvas';
+import Canvas from '../../types/Canvas';
 
 
 @Entity()
@@ -25,8 +25,8 @@ class Lap extends BaseEntity {
   createdAt: Date;
 
   static findByCanvas(canvas: Canvas) {
-    const { minLat, minLon, maxLat, maxLon } = canvas;
-    const polygon: String = `Polygon((${minLat}, ${minLon}, ${maxLat}, ${maxLon}, ${minLat}))`;
+    const { northWest, northEst, southEst, southWest } = canvas;
+    const polygon: String = `Polygon((${northWest}, ${northEst}, ${southEst}, ${southWest}, ${northWest}))`;
     return this.createQueryBuilder("lap")
       .where("ST_Intersects(geometry, ST_GeomFromText(:polygon))", { polygon })
       .getMany();

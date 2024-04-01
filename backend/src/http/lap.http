@@ -1,1 +1,2 @@
-GET http://localhost:4000/api/laps?minLat=45.801458 1.288412&minLon=45.801458 1.299458&maxLat=45.796295 1.300004&maxLon=45.796803 1.290658
+GET http://localhost:4000/api/laps?northWest=45.801458 1.288412&northEst=45.801458 1.299458&southEst=45.796295 1.300004&southWest=45.796803 1.290658
+
