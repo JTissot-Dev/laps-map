@@ -18,12 +18,16 @@
     "migration:down:prod": "typeorm-ts-node-commonjs migration:revert -d src/database/appDataSource.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.10.2",
     "@dotenvx/dotenvx": "^0.27.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.23.0",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.2.1",
+    "type-graphql": "^2.0.0-beta.6",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
