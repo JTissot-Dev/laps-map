@@ -1,4 +1,3 @@
-'use client';
 import { MapContainer } from "react-leaflet";
 import { TileLayer } from "react-leaflet";
 
@@ -10,10 +9,10 @@ const Map: React.FC = () => {
       zoom={13} 
       scrollWheelZoom={true}
       style={{ height: "100vh" }}
+      zoomControl={ false }
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
       />
     </MapContainer>
   )

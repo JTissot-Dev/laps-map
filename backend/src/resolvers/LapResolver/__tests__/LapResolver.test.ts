@@ -19,7 +19,7 @@ const mockLaps: Lap[] = [
 ];
 jest.spyOn(Lap, 'findByCanvas').mockImplementation(() => Promise.resolve(mockLaps));
 
-describe('Controller laps GET', () => {
+describe('Resolver laps GET', () => {
   let app: express.Express;
   let apolloServer: ApolloServer;
   let httpServer: http.Server;
