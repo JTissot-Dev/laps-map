@@ -1,0 +1,59 @@
+services:
+
+  database:
+    platform: linux/amd64
+    image: mysql:5.7.37
+    command: --explicit_defaults_for_timestamp=ON
+    container_name: lapsmapdbdev
+    env_file:
+      - ./backend/.env
+    restart: always
+    volumes:
+      - ./mysqldatabase:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  backend:
+    platform: linux/amd64
+    build: ./backend
+    ports:
+      - 4000:4000
+    volumes:
+      - ./backend/src:/app/src
+    command: sh -c "npm run migration:up && npm run seed && npm run dev"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/app:/app/app
+    command: sh -c "npm run codegen && npm run dev"
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      backend:
+        condition: service_healthy
+  

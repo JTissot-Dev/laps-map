@@ -1,2 +1,14 @@
-GET http://localhost:4000/api/laps?northWest=45.801458 1.288412&northEst=45.801458 1.299458&southEst=45.796295 1.300004&southWest=45.796803 1.290658
+POST http://localhost:4000
+Content-Type: application/json
+
+{
+  "query": "query($northWest: String!, $northEst: String!, $southEst: String!, $southWest: String!) { getBikes(northWest: $northWest, northEst: $northEst, southEst: $southEst, southWest: $southWest) { id, name, position { latitude, longitude } } }",
+  "variables": {
+    "northWest": "45.801458 1.288412",
+    "northEst": "45.801458 1.299458",
+    "southEst": "45.796295 1.300004",
+    "southWest": "45.796803 1.290658"
+  }
+}
+
 

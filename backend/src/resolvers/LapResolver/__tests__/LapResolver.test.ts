@@ -5,7 +5,7 @@ import 'reflect-metadata';
 import LapResolver from '../LapResolver';
 import Lap from '../../../models/Lap/Lap';
 import startApolloServer from '../../../startApolloServer';
-import CanvasInput from '../../../types/CanvasInput';
+import { canvas, city } from '../../../data/testsData';
 import request from 'supertest';
 
 
@@ -24,20 +24,22 @@ describe('Resolver laps GET', () => {
   let apolloServer: ApolloServer;
   let httpServer: http.Server;
 
-  const testCanvas: CanvasInput = {
-    northWest: '45.801458 1.288412',
-    northEst: '45.801458 1.299458',
-    southEst: '45.796295 1.300004',
-    southWest: '45.796803 1.290658',
-  };
-
-  const queryData = {
+  const queryByCanvas = {
     query: `query GetLaps($canvas: CanvasInput!){
-      laps(canvas: $canvas) {
+      lapsByCanvas(canvas: $canvas) {
         id
       }
     }`,
-    variables: { canvas: testCanvas },
+    variables: { canvas: canvas },
+  };
+
+  const queryByCity = {
+    query: `query GetLaps($canvas: CanvasInput!){
+      lapsByCity(canvas: $canvas) {
+        id
+      }
+    }`,
+    variables: { city: city },
   };
 
   beforeEach(async () => {
@@ -52,20 +54,39 @@ describe('Resolver laps GET', () => {
     httpServer.close();
   });
 
-  test('Should return laps', async () => {
+  test('queryByCanvas Should return laps', async () => {
     
     (Lap.findByCanvas as jest.Mock).mockResolvedValue(mockLaps);
-    const response = await request(app).post('/').send(queryData);
+    const response = await request(app).post('/').send(queryByCanvas);
 
-    expect(response.body.data.laps.map(laps => Number(laps.id)))
+    expect(response.body.data.lapsByCanvas.map(laps => Number(laps.id)))
       .toEqual(mockLaps.map(lap => lap.id));
 
   });
 
-  test('Should return error message if there is an error', async () => {
+  test('queryByCanvas Should return error message if there is an error', async () => {
 
     (Lap.findByCanvas as jest.Mock).mockRejectedValue(new Error('Test error'));
-    const response = await request(app).post('/').send(queryData);
+    const response = await request(app).post('/').send(queryByCanvas);
+    
+    expect(response.body.errors[0].message).toBe('Internal server error');
+
+  });
+
+  test('queryByCity Should return laps', async () => {
+    
+    (Lap.findByCanvas as jest.Mock).mockResolvedValue(mockLaps);
+    const response = await request(app).post('/').send(queryByCity);
+
+    expect(response.body.data.lapsByCity.map(laps => Number(laps.id)))
+      .toEqual(mockLaps.map(lap => lap.id));
+
+  });
+
+  test('queryByCity Should return error message if there is an error', async () => {
+
+    (Lap.findByCanvas as jest.Mock).mockRejectedValue(new Error('Test error'));
+    const response = await request(app).post('/').send(queryByCity);
     
     expect(response.body.errors[0].message).toBe('Internal server error');
 

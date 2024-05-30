@@ -5,17 +5,16 @@
   "main": "server.ts",
   "scripts": {
     "start": "",
-    "dev": "dotenvx run --env-file=.env.dev -- ts-node-dev --respawn ./src/server.ts",
+    "dev": "ts-node-dev --respawn ./src/server.ts",
     "test": "dotenvx run --env-file=.env.dev -- jest",
     "prod": "ts-node-dev ./src/server.ts",
-    "migration:create": "dotenvx run --env-file=.env.dev -- typeorm-ts-node-commonjs migration:create",
-    "migration:generate": "dotenvx run --env-file=.env.dev -- typeorm-ts-node-commonjs migration:generate -d src/database/appDataSource.ts",
-    "migration:up:dev": "dotenvx run --env-file=.env.dev -- typeorm-ts-node-commonjs migration:run -d src/database/appDataSource.ts",
-    "migration:down:dev": "dotenvx run --env-file=.env.dev -- typeorm-ts-node-commonjs migration:revert -d src/database/appDataSource.ts",
+    "seed": "ts-node-dev ./src/database/seeders/seeders.ts",
+    "migration:create": "typeorm-ts-node-commonjs migration:create",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/database/appDataSource.ts",
     "migration:up:test": "dotenvx run --env-file=.env.test -- typeorm-ts-node-commonjs migration:run -d src/database/appDataSource.ts",
     "migration:down:test": "dotenvx run --env-file=.env.test -- typeorm-ts-node-commonjs migration:revert -d src/database/appDataSource.ts",
-    "migration:up:prod": "typeorm-ts-node-commonjs migration:run -d src/database/appDataSource.ts",
-    "migration:down:prod": "typeorm-ts-node-commonjs migration:revert -d src/database/appDataSource.ts"
+    "migration:up": "typeorm-ts-node-commonjs migration:run -d src/database/appDataSource.ts",
+    "migration:down": "typeorm-ts-node-commonjs migration:revert -d src/database/appDataSource.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.10.2",

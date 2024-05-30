@@ -1,7 +1,8 @@
 import app from ".";
-import appDataSource from "./database/appDataSource";
+import appDataSource from "./database/AppDataSource";
 import startApolloServer from "./startApolloServer";
 import LapResolver from "./resolvers/LapResolver/LapResolver";
+import cors from 'cors';
 
 const port = 4000;
 

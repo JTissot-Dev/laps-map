@@ -2,6 +2,7 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "@/components/Header/Header";
 import SideBar from "@/components/SideBar/SideBar";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const DefaultLayout: React.FC<{children: ReactNode}> = ({ 
@@ -14,11 +15,14 @@ const DefaultLayout: React.FC<{children: ReactNode}> = ({
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Header />
-        <SideBar />
-        <main className="main-content h-[100vh]">
-          { children }
-        </main>
+        <body>
+          <Header />
+          <SideBar />
+          <Toaster />
+          <main className="main-content h-[100vh]">
+            { children }
+          </main>
+        </body>
       </>
     );
 };

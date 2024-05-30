@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import { GeoJSON } from "react-leaflet";
 import { Feature, Geometry } from 'geojson';
 import { Lap } from "@/generated/graphql-types";
-import { useGetLapsLazyQuery } from "@/generated/graphql-types";
+import { useGetLapsCanvasLazyQuery } from "@/generated/graphql-types";
 import { useStateContext } from "@/contexts/context";
 import formatGeoJsonCoords from "@/utils/formatGeoJsonCoords";
 
 
-const LapLayer = () => {
+const LapLayer: React.FC = () => {
 
   const { canvas } = useStateContext();
-  const [getLaps, { data }] = useGetLapsLazyQuery();
+  const [getLaps, { data }] = useGetLapsCanvasLazyQuery();
 
   useEffect(() => {
     if (canvas) {
@@ -20,7 +20,7 @@ const LapLayer = () => {
 
   return (
     <>
-      {(data && data.laps) && data.laps.map((lap: Lap) => {
+      {(data && data.lapsByCanvas) && data.lapsByCanvas.map((lap) => {
         const geometry = formatGeoJsonCoords(lap.geometry) as Geometry;
 
         const geoJsonData: Feature = {
