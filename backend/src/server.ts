@@ -2,12 +2,13 @@ import app from ".";
 import appDataSource from "./database/AppDataSource";
 import startApolloServer from "./startApolloServer";
 import LapResolver from "./resolvers/LapResolver/LapResolver";
-import cors from 'cors';
+import UserResolver from "./resolvers/UserResolver/UserResolver";
 
 const port = 4000;
 
 startApolloServer([
-  LapResolver
+  LapResolver,
+  UserResolver
 ], app);
 
 app.listen(port, async () => {

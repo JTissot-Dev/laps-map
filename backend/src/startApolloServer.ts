@@ -5,6 +5,7 @@ import http from 'http';
 import cors from 'cors';
 import express from 'express';
 import { expressMiddleware } from '@apollo/server/express4';
+import * as jwt from 'jsonwebtoken';
 
 
 const startApolloServer = async (
@@ -16,11 +17,14 @@ const startApolloServer = async (
   };
   const schema = await buildSchema({
     resolvers: resolvers,
+    authChecker: ({ context }) => {
+      return context.payload.email;
+    }
   });
   const httpServer = http.createServer(app);
   const apolloServer = new ApolloServer<MyContext>({
     schema,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   });
   await apolloServer.start();
   
@@ -29,7 +33,16 @@ const startApolloServer = async (
     cors<cors.CorsRequest>(),
     express.json(),
     expressMiddleware(apolloServer, {
-      context: async ({ req }) => ({ token: req.headers.token }),
+      context: async ({ req, res }) => {
+        if (!req.headers.cookie) return { res };
+        const token = req.headers.cookie.replace("token=", "");
+        const payload = jwt.verify(
+          token, 
+          process.env.JWT_SECRET
+        );
+        if (typeof payload === "string") return { res };
+        return { payload, res };
+      },
     }),
   );
   return { apolloServer, httpServer };

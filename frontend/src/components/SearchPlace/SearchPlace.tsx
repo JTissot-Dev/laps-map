@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Feature, Polygon } from "geojson";
 import formatWktCoords from "@/utils/formatWktCoords";
 import CustomSelect from "../ui/customSelect";

@@ -11,6 +11,7 @@ import {
  import CanvasInput from "../../types/CanvasInput";
  import Image from "../Image/Image";
  import Difficulty from "../Difficulty/Difficulty";
+ import User from "../User/User";
 
 
 @Entity()
@@ -52,11 +53,19 @@ class Lap extends BaseEntity {
   @JoinColumn()
   difficulty!: Difficulty;
 
+  @Field(_type => User)
+  @ManyToOne(() => User, (user) => user.laps, { 
+    eager: true
+  })
+  @JoinColumn()
+  user!: User;
+
   static findByCanvas(canvas: CanvasInput) {
     const { northWest, northEst, southEst, southWest } = canvas;
     const polygon: String = `Polygon((${northWest}, ${northEst}, ${southEst}, ${southWest}, ${northWest}))`;
     return this.createQueryBuilder("lap")
       .leftJoinAndSelect("lap.difficulty", "difficulty")
+      .leftJoinAndSelect("lap.user", "user")
       .where("ST_Intersects(geometry, ST_GeomFromText(:polygon))", { polygon })
       .getMany();
   };
@@ -64,6 +73,7 @@ class Lap extends BaseEntity {
   static findByCity(city: string) {
     return this.createQueryBuilder("lap")
       .leftJoinAndSelect("lap.difficulty", "difficulty")
+      .leftJoinAndSelect("lap.user", "user")
       .where("ST_Intersects(geometry, ST_GeomFromText(:city))", { city })
       .getMany();
   }

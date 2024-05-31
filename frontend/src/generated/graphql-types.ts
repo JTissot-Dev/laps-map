@@ -49,6 +49,17 @@ export type Lap = {
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Image>>;
   name: Scalars['String']['output'];
+  user: User;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  signup: Scalars['String']['output'];
+};
+
+
+export type MutationSignupArgs = {
+  userData: UserInput;
 };
 
 export type Query = {
@@ -65,6 +76,25 @@ export type QueryLapsByCanvasArgs = {
 
 export type QueryLapsByCityArgs = {
   city: Scalars['String']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  birthDay: Scalars['DateTimeISO']['output'];
+  email: Scalars['String']['output'];
+  firstName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  laps: Array<Lap>;
+  lastName: Scalars['String']['output'];
+  password: Scalars['String']['output'];
+};
+
+export type UserInput = {
+  birthDay: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type GetLapsCanvasQueryVariables = Exact<{

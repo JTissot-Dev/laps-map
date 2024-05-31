@@ -8,6 +8,5 @@ RUN npm i
 COPY tsconfig.json ./
 COPY jest.config.ts ./
 COPY src src
-ARG NODE_ENV
 
 CMD npm run dev

@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import Lap from "../models/Lap/Lap";
 import Image from "../models/Image/Image";
 import Difficulty from "../models/Difficulty/Difficulty";
+import User from "../models/User/User";
 import 'dotenv/config';
 
 
@@ -18,7 +19,8 @@ const appDataSource: DataSource = new DataSource({
   entities: [
     Lap,
     Image,
-    Difficulty
+    Difficulty,
+    User
   ],
   migrations: [
     "src/database/migrations/*.ts"
