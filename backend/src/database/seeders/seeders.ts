@@ -4,6 +4,28 @@ import User from "../../models/User/User";
 
 const seedDatabase = async () => {
   await appDataSource.initialize();
+
+  // Drop previous data
+    
+  await appDataSource
+  .createQueryBuilder()
+  .delete()
+  .from('Lap')
+  .execute();
+  
+  await appDataSource
+    .createQueryBuilder()
+    .delete()
+    .from('User')
+    .execute();
+
+  await appDataSource
+  .createQueryBuilder()
+  .delete()
+  .from('Difficulty')
+  .execute();
+
+  // Create data
   await appDataSource
     .createQueryBuilder()
     .insert()

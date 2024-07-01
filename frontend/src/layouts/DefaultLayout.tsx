@@ -15,14 +15,14 @@ const DefaultLayout: React.FC<{children: ReactNode}> = ({
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <body>
+        <>
           <Header />
           <SideBar />
           <Toaster />
           <main className="main-content h-[100vh]">
             { children }
           </main>
-        </body>
+        </>
       </>
     );
 };

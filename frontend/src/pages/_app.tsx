@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import 'leaflet/dist/leaflet.css';
 import { ApolloProvider } from "@apollo/client";
 import { ContextProvider } from "../contexts/context";
+import { AuthContextProvider } from '@/contexts/authContext';
 import apolloClient from "@/apolloClient";
 
 
@@ -22,11 +23,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
   
   return (
-    <ContextProvider>
-      <ApolloProvider client={ apolloClient }>
-          { getLayout(<Component {...pageProps} />) }
-      </ApolloProvider>
-    </ContextProvider>
+    <AuthContextProvider>
+      <ContextProvider>
+        <ApolloProvider client={ apolloClient }>
+            { getLayout(<Component {...pageProps} />) }
+        </ApolloProvider>
+      </ContextProvider>
+    </AuthContextProvider>
   );
 };
 

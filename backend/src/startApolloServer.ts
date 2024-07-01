@@ -30,7 +30,10 @@ const startApolloServer = async (
   
   app.use(
     '/',
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>({ 
+      credentials: true,
+      origin: process.env.CLIENT_BASE_URL
+    }),
     express.json(),
     expressMiddleware(apolloServer, {
       context: async ({ req, res }) => {

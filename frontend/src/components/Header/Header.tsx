@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { 
   AlignJustify, 
   UserRound, 
@@ -6,6 +7,7 @@ import {
 import { Button } from "../ui/button";
 import useDimensions from "@/hooks/useDimension";
 import { useStateContext } from "@/contexts/context";
+import { useAuthStateContext } from "@/contexts/authContext";
 
 
 const Header: React.FC = () => {
@@ -14,6 +16,8 @@ const Header: React.FC = () => {
   const { 
     isOpenSidebar, 
     setIsOpenSidebar } = useStateContext();
+  const { authenticatedUser } = useAuthStateContext();
+  const router = useRouter();
 
   return (
     <header
@@ -34,37 +38,52 @@ const Header: React.FC = () => {
           <AlignJustify size={20} />
         </Button>
       }
-      <div>
+      {!authenticatedUser.userId ?
+        <div>
+          <Button 
+            className={
+              clsx(
+                "rounded-full shadow-xl me-3", 
+                width > 640 && "me-5"
+              )
+            }
+            size={ width > 640 ? "default" : "icon" }
+            onClick={() => router.push("/login")}
+          >
+            <UserRound 
+              className={clsx(width > 640 && "mr-2")}
+              size={20} 
+            /> 
+              { width > 640 &&
+                <span>Se connecter</span>
+              }
+          </Button>
+          <Button 
+            className="rounded-full shadow-xl"
+            size={ width > 640 ? "default" : "icon" }
+            onClick={() => router.push("/signup")}
+          >
+            <UserRoundPlus 
+              className={clsx(width > 640 && "mr-2")}
+              size={20} 
+            /> 
+              { width > 640 &&
+                <span>S'inscrire</span>
+              }
+          </Button>
+        </div> :
         <Button 
-          className={
-            clsx(
-              "rounded-full shadow-xl me-3", 
-              width > 640 && "me-5"
-            )
+          variant="profile"
+          size="profile"
+          onClick={() => router.push("/profile")}
+        >
+          { 
+            authenticatedUser.userName.split(" ")[0].charAt(0).toUpperCase() + 
+            authenticatedUser.userName.split(" ")[1].charAt(0).toUpperCase() 
           }
-          size={ width > 640 ? "default" : "icon" }
-        >
-          <UserRound 
-            className={clsx(width > 640 && "mr-2")}
-            size={20} 
-          /> 
-            { width > 640 &&
-              <span>Se connecter</span>
-            }
         </Button>
-        <Button 
-          className="rounded-full shadow-xl"
-          size={ width > 640 ? "default" : "icon" }
-        >
-          <UserRoundPlus 
-            className={clsx(width > 640 && "mr-2")}
-            size={20} 
-          /> 
-            { width > 640 &&
-              <span>S'inscrire</span>
-            }
-        </Button>
-      </div>
+      }
+
     </header>
   )
 };

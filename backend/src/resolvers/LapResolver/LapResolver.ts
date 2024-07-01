@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg } from "type-graphql";
+import { Resolver, Query, Arg, Authorized } from "type-graphql";
 import Lap from "../../models/Lap/Lap";
 import CanvasInput from "../../types/CanvasInput";
 

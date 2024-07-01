@@ -21,9 +21,6 @@ const SearchPlace: React.FC = () => {
   const handleSearchPlace = (value: string) => {
     fetch(`${process.env.NEXT_PUBLIC_API_GEO_GOUV_URL}/communes?nom=${value}&format=geojson&geometry=contour&limit=5`)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error('Une erreur est survenue, veuillez actualiser la page');
-      };
       return response.json();
     })
     .then(({features}) => {
@@ -47,7 +44,6 @@ const SearchPlace: React.FC = () => {
 
     setCurrentCity(value.label);
     const wktGeometry = formatWktCoords(value.geometry);
-
     getLapsCity({ 
       variables: { city: wktGeometry }, 
       onCompleted: (data) => {

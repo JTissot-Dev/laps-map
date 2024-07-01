@@ -1,16 +1,36 @@
 import { Resolver, Mutation, Arg, Ctx } from "type-graphql";
 import { validate } from "class-validator";
 import * as argon2 from "argon2";
-import * as jwt from "jsonwebtoken";
-import UserInput from "../../types/UserInput";
+import { UserSignup, UserLogin } from "../../types/userInputs";
 import User from "../../models/User/User";
+import authenticate from "../../http/utils/authenticate";
 
 
 @Resolver()
 class UserResolver {
 
   @Mutation(_returns => String)
-  async signup(@Arg("userData") userData: UserInput, @Ctx() context): Promise<string> {
+  async login(@Arg("userData") userData: UserLogin , @Ctx() context): Promise<string> {
+    try {
+      const user = await User.findOneByOrFail({ email: userData.email });
+
+      if (!user) throw new Error("Invalide email");
+      if (!argon2.verify(user.password, userData.password)) {
+        throw new Error("Invalid password");
+      };
+
+      return authenticate(context, user);
+
+    } catch (error) {
+      if (error.message === 'Invalid email' || error.message === 'Invalid password') {
+        throw new Error(error.message);
+      };
+      throw new Error('Internal server error');
+    };
+  };
+
+  @Mutation(_returns => String)
+  async signup(@Arg("userData") userData: UserSignup, @Ctx() context): Promise<string> {
     try {
       const hashedPassword = await argon2.hash(userData.password);
       const user = new User();
@@ -23,22 +43,7 @@ class UserResolver {
 
       await User.save(user);
 
-      const token = jwt.sign({
-          userId: user.id,
-          userName: user.firstName + " " + user.lastName,
-          email: user.email
-        }, 
-        process.env.JWT_SECRET, 
-        { expiresIn: "1h" }
-    );
-
-    context.res.setHeader("Set-Cookie", `token=${token}`);
-
-    return JSON.stringify({
-      userId: user.id,
-      userName: user.firstName + " " + user.lastName,
-      email: user.email
-    });
+      return authenticate(context, user);
       
     } catch (error) {
       if (error.message === 'Data validation failed') {

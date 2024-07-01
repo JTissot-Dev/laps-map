@@ -20,7 +20,7 @@ class User extends Person {
 
   @Field(_type => String)
   @Column({ type: "varchar", length: 255 })
-  @Length(6, 255)
+  @Length(8, 255)
   password!: string;
 
   @Field(_type => [Lap])
