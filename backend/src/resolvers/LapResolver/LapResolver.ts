@@ -29,6 +29,16 @@ class LapResolver {
         throw new Error('Internal server error');
     };
   };
+
+  @Query(_returns => Lap)
+  async lapById(@Arg("id") id: number): Promise<Lap> {
+    try {
+      const lap: Lap = await Lap.findOneByOrFail({ id });
+      return lap;
+    } catch(_error) {
+        throw new Error('Internal server error');
+    };
+  };
 };
 
 export default LapResolver;

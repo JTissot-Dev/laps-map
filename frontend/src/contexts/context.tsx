@@ -6,14 +6,16 @@ import {
 
 
 type ContextType = {
-  isOpenSidebar: boolean;
-  setIsOpenSidebar: (isOpenSidebar: boolean) => void;
-  canvas: CanvasInput;
-  setCanvas: (canvas: CanvasInput) => void;
-  searchLaps: Lap[];
-  setSearchLaps: (laps: Lap[]) => void;
-  currentCity: string;
-  setCurrentCity: (city: string) => void;
+  isOpenSidebar: boolean,
+  setIsOpenSidebar: (isOpenSidebar: boolean) => void,
+  canvas: CanvasInput,
+  setCanvas: (canvas: CanvasInput) => void,
+  searchLaps: Lap[],
+  setSearchLaps: (laps: Lap[]) => void,
+  currentCity: string,
+  setCurrentCity: (city: string) => void,
+  currentLap: Lap,
+  setCurrentLap: (lap: Lap) => void
 };
 
 const context = createContext<ContextType>({
@@ -29,7 +31,9 @@ const context = createContext<ContextType>({
   searchLaps: [],
   setSearchLaps: () => {},
   currentCity: "",
-  setCurrentCity: () => {}
+  setCurrentCity: () => {},
+  currentLap: {} as Lap,
+  setCurrentLap: () => {}
 });
 
 export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
@@ -44,6 +48,7 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
     });
     const [searchLaps, setSearchLaps] = useState<Lap[]>([]);
     const [currentCity, setCurrentCity] = useState<string>("");
+    const [currentLap, setCurrentLap] = useState<Lap>({} as Lap);
 
     return (
       <context.Provider value={{
@@ -54,7 +59,9 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
         searchLaps,
         setSearchLaps,
         currentCity,
-        setCurrentCity
+        setCurrentCity,
+        currentLap,
+        setCurrentLap
       }}>
         {children}
       </context.Provider>

@@ -8,13 +8,15 @@ const LapCard: React.FC<{ lap: Lap }> = ({ lap }) => {
   const imageSrc = lap.images?.length && lap.images.length > 0 && lap.images[0].imgUrl;
 
   return (
-    <div
+    <button
       className={
         clsx(
           "flex items-start",
           "p-2 w-full rounded-md",
           "border border-[#e5e7eb]",
-          "bg-[#FFFFFF] shadow-sm box-content"
+          "bg-[#FFFFFF] shadow-sm box-content",
+          "hover:border-[#252D3E]",
+          "text-start"
         )
       }
     >
@@ -41,7 +43,7 @@ const LapCard: React.FC<{ lap: Lap }> = ({ lap }) => {
         </div>
         
       </div>
-    </div>
+    </button>
   );
 };
 

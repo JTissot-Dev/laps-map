@@ -72,6 +72,7 @@ export type Query = {
   __typename?: 'Query';
   lapsByCanvas: Array<Lap>;
   lapsByCity: Array<Lap>;
+  lapsById: Lap;
 };
 
 
@@ -82,6 +83,11 @@ export type QueryLapsByCanvasArgs = {
 
 export type QueryLapsByCityArgs = {
   city: Scalars['String']['input'];
+};
+
+
+export type QueryLapsByIdArgs = {
+  id: Scalars['Float']['input'];
 };
 
 export type User = {

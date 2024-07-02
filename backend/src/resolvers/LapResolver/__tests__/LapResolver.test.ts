@@ -25,7 +25,7 @@ describe('Resolver laps GET', () => {
   let httpServer: http.Server;
 
   const queryByCanvas = {
-    query: `query GetLaps($canvas: CanvasInput!){
+    query: `query GetLapsCanvas($canvas: CanvasInput!){
       lapsByCanvas(canvas: $canvas) {
         id
       }
@@ -34,12 +34,21 @@ describe('Resolver laps GET', () => {
   };
 
   const queryByCity = {
-    query: `query GetLaps($canvas: CanvasInput!){
+    query: `query GetLapsCity($canvas: CanvasInput!){
       lapsByCity(canvas: $canvas) {
         id
       }
     }`,
     variables: { city: city },
+  };
+
+  const queryById = {
+    query: `query GetLapId($id: Float!){
+      lapsByCity(id: $id) {
+        id
+      }
+    }`,
+    variables: { id: 1 },
   };
 
   beforeEach(async () => {
@@ -91,4 +100,24 @@ describe('Resolver laps GET', () => {
     expect(response.body.errors[0].message).toBe('Internal server error');
 
   });
+
+  test('queryById Should return lap', async () => {
+    
+    (Lap.findByCanvas as jest.Mock).mockResolvedValue(mockLaps);
+    const response = await request(app).post('/').send(queryById);
+
+    expect(response.body.data.lapsById.id)
+      .toEqual(mockLap1.id);
+
+  });
+
+  test('queryById Should return error message if there is an error', async () => {
+
+    (Lap.findByCanvas as jest.Mock).mockRejectedValue(new Error('Test error'));
+    const response = await request(app).post('/').send(queryById);
+    
+    expect(response.body.errors[0].message).toBe('Internal server error');
+
+  });
+
 });
