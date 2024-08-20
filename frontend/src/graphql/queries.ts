@@ -36,3 +36,24 @@ export const GET_LAPS_CITY = gql`
     }
   }
 `;
+
+export const GET_LAP_ID = gql`
+  query LapById($id: Float!) {
+    lapById(id: $id) {
+      id
+      geometry
+      difficulty {
+        level
+      }
+      images {
+        imgUrl
+        createdAt
+      }
+      name
+      user {
+        email
+      }
+      createdAt
+    }
+  }
+`

@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "",
-    "dev": "ts-node-dev --respawn ./src/server.ts",
+    "dev": "ts-node-dev --poll ./src/server.ts",
     "test": "dotenvx run --env-file=.env.dev -- jest",
     "prod": "ts-node-dev ./src/server.ts",
     "seed": "ts-node-dev ./src/database/seeders/seeders.ts",

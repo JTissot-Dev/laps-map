@@ -1,10 +1,15 @@
 import { useEffect } from "react";
-import { MapContainer, useMapEvents, useMap } from "react-leaflet";
+import { createPortal } from "react-dom";
+import { 
+  MapContainer, 
+  useMapEvents, 
+  useMap } from "react-leaflet";
 import { TileLayer } from "react-leaflet";
 import { useStateContext } from "@/contexts/context";
 import stringifyCoords from "@/utils/stringifyCoords";
 import LapLayer from "../layers/LapLayer/LapLayer";
 import useGeoLocation from "@/hooks/useGeoLocation";
+import SideBar from "../SideBar/SideBar";
 
 
 const MapHandler: React.FC = () => {
@@ -47,7 +52,6 @@ const MapHandler: React.FC = () => {
 
 const Map: React.FC = () => {
 
-
   return (
     <MapContainer 
       center={[45.749308, 4.909850]} 
@@ -61,6 +65,7 @@ const Map: React.FC = () => {
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
       <LapLayer />
+      { createPortal(<SideBar />, document.body) }
     </MapContainer>
   )
 }

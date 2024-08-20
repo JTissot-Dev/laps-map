@@ -2,7 +2,7 @@ import {
   createContext, 
   useContext,
   useState } from "react";
-  import { CanvasInput, Lap } from "@/generated/graphql-types";
+import { CanvasInput, Lap } from "@/generated/graphql-types";
 
 
 type ContextType = {

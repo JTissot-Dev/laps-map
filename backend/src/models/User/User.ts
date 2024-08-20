@@ -3,11 +3,11 @@ import {
   Entity,
   Column, 
   OneToMany} from 'typeorm';
-  import { 
-    IsEmail,
-    Length } from "class-validator";
-  import Person from "../Person/Person";
-  import Lap from "../Lap/Lap";
+import { 
+  IsEmail,
+  Length } from "class-validator";
+import Person from "../Person/Person";
+import Lap from "../Lap/Lap";
 
 
 @Entity()

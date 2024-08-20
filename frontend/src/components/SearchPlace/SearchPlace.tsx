@@ -73,7 +73,6 @@ const SearchPlace: React.FC = () => {
       placeholder="Sélectionner un lieu..."
       noOptionsMessage={() => "Aucun résultat trouvé"}
       onInputChange={ (value: string) => handleSearchPlace(value) }
-      className=""
       onChange={(value) => handleSearchLaps(value as CityOptionSelect)}
     />
   );

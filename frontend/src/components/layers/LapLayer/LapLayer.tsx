@@ -9,7 +9,7 @@ import formatGeoJsonCoords from "@/utils/formatGeoJsonCoords";
 
 const LapLayer: React.FC = () => {
 
-  const { canvas } = useStateContext();
+  const { canvas, currentLap } = useStateContext();
   const [getLaps, { data }] = useGetLapsCanvasLazyQuery();
 
   useEffect(() => {
@@ -26,17 +26,29 @@ const LapLayer: React.FC = () => {
         const geoJsonData: Feature = {
           type: "Feature",
           geometry: geometry,
-          properties: {}
+          properties: {
+            id: lap.id,
+          }
         };
 
         return (
           <GeoJSON
-            key={lap.id}
+            key={
+              `${lap.id} + ${currentLap.id}`
+            }
             data={geoJsonData}
-            style={() => ({
-              color: "#a83636",
-              weight: 2,
-            })}
+            style={(feature) => {
+              if (feature?.properties.id === currentLap.id) {
+                return {
+                  color: "#30F6F0",
+                  weight: 4,
+                }
+              }
+              return {
+                color: "#a83636",
+                weight: 2,
+              }
+            }}
           />
         );
       })}

@@ -70,9 +70,14 @@ export type MutationSignupArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  lapById: Lap;
   lapsByCanvas: Array<Lap>;
   lapsByCity: Array<Lap>;
-  lapsById: Lap;
+};
+
+
+export type QueryLapByIdArgs = {
+  id: Scalars['Float']['input'];
 };
 
 
@@ -83,11 +88,6 @@ export type QueryLapsByCanvasArgs = {
 
 export type QueryLapsByCityArgs = {
   city: Scalars['String']['input'];
-};
-
-
-export type QueryLapsByIdArgs = {
-  id: Scalars['Float']['input'];
 };
 
 export type User = {
@@ -141,6 +141,13 @@ export type GetLapsCityQueryVariables = Exact<{
 
 
 export type GetLapsCityQuery = { __typename?: 'Query', lapsByCity: Array<{ __typename?: 'Lap', id: string, name: string, duration?: string | null, geometry: string, createdAt: any, difficulty: { __typename?: 'Difficulty', level: string }, images?: Array<{ __typename?: 'Image', imgUrl?: string | null }> | null }> };
+
+export type LapByIdQueryVariables = Exact<{
+  id: Scalars['Float']['input'];
+}>;
+
+
+export type LapByIdQuery = { __typename?: 'Query', lapById: { __typename?: 'Lap', id: string, geometry: string, name: string, createdAt: any, difficulty: { __typename?: 'Difficulty', level: string }, images?: Array<{ __typename?: 'Image', imgUrl?: string | null, createdAt: any }> | null, user: { __typename?: 'User', email: string } } };
 
 
 export const SignupDocument = gql`
@@ -305,3 +312,56 @@ export type GetLapsCityQueryHookResult = ReturnType<typeof useGetLapsCityQuery>;
 export type GetLapsCityLazyQueryHookResult = ReturnType<typeof useGetLapsCityLazyQuery>;
 export type GetLapsCitySuspenseQueryHookResult = ReturnType<typeof useGetLapsCitySuspenseQuery>;
 export type GetLapsCityQueryResult = Apollo.QueryResult<GetLapsCityQuery, GetLapsCityQueryVariables>;
+export const LapByIdDocument = gql`
+    query LapById($id: Float!) {
+  lapById(id: $id) {
+    id
+    geometry
+    difficulty {
+      level
+    }
+    images {
+      imgUrl
+      createdAt
+    }
+    name
+    user {
+      email
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useLapByIdQuery__
+ *
+ * To run a query within a React component, call `useLapByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLapByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLapByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useLapByIdQuery(baseOptions: Apollo.QueryHookOptions<LapByIdQuery, LapByIdQueryVariables> & ({ variables: LapByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LapByIdQuery, LapByIdQueryVariables>(LapByIdDocument, options);
+      }
+export function useLapByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LapByIdQuery, LapByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LapByIdQuery, LapByIdQueryVariables>(LapByIdDocument, options);
+        }
+export function useLapByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<LapByIdQuery, LapByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LapByIdQuery, LapByIdQueryVariables>(LapByIdDocument, options);
+        }
+export type LapByIdQueryHookResult = ReturnType<typeof useLapByIdQuery>;
+export type LapByIdLazyQueryHookResult = ReturnType<typeof useLapByIdLazyQuery>;
+export type LapByIdSuspenseQueryHookResult = ReturnType<typeof useLapByIdSuspenseQuery>;
+export type LapByIdQueryResult = Apollo.QueryResult<LapByIdQuery, LapByIdQueryVariables>;

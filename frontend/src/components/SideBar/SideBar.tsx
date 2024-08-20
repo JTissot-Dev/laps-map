@@ -13,7 +13,7 @@ const SideBar: React.FC = () => {
     setIsOpenSidebar,
     searchLaps,
     currentCity } = useStateContext();
-  console.log(currentCity)
+
   return (
     <aside
       className={
@@ -44,7 +44,7 @@ const SideBar: React.FC = () => {
         <div className={
           clsx(
             "absolute top-[80px] h-[20px] left-0 right-0",
-             "ms-4 me-[19px]",
+             "ms-4 me-[14.7px]",
           )
         }>
           <SearchPlace />

@@ -1,12 +1,17 @@
 import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "@/components/Header/Header";
-import SideBar from "@/components/SideBar/SideBar";
 import { Toaster } from "@/components/ui/toaster";
+import { useStateContext } from "@/contexts/context";
+import InformationBar from "@/components/InformationBar/InformationBar";
+import SideBar from "@/components/SideBar/SideBar";
 
 
 const DefaultLayout: React.FC<{children: ReactNode}> = ({ 
   children }) => {
+
+    const { currentLap } = useStateContext();
+
     return (
       <>
         <Head>
@@ -16,12 +21,13 @@ const DefaultLayout: React.FC<{children: ReactNode}> = ({
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <>
+
           <Header />
-          <SideBar />
           <Toaster />
           <main className="main-content h-[100vh]">
             { children }
           </main>
+          { currentLap.id && <InformationBar /> }
         </>
       </>
     );

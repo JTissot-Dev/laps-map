@@ -5,7 +5,7 @@ import LapCard from "../cards/LapCard/LapCard";
 const SearchLaps: React.FC<{searchLaps : Lap[]}> = ({ searchLaps }) => {
   
   return (
-    <ul className="-mt-2 me-1.5 pe-4">
+    <ul className="-mt-2 me-1.5 pe-4 box-content">
       {searchLaps.map((lap) => (
         <li 
           className="my-2"
